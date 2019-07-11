@@ -1,0 +1,95 @@
+commit e539136ef5096069242d1003f2ae69f3cadb96fe
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 11:18:59 2019 +0300
+
+    Lisäyspoistotiedostoja
+
+ tiedostoja/file1             | 1 -
+ tiedostoja/{file2 => file22} | 0
+ 2 files changed, 1 deletion(-)
+
+commit a7c5645300d80a59159f545c52df13129774d01a
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 11:16:17 2019 +0300
+
+    Lisätty tiedostoja kansio
+
+ tiedostoja/file1 | 1 +
+ tiedostoja/file2 | 1 +
+ tiedostoja/file3 | 1 +
+ 3 files changed, 3 insertions(+)
+
+commit ce12b57dd6f8a5e69ce9a745c446164c10a03bed
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 11:12:12 2019 +0300
+
+    Patch
+
+ eka.txt    | 3 ++-
+ kolmas.txt | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+commit d3949f76203063902a57f8daad410f8a9795f8e9
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 11:08:57 2019 +0300
+
+    Nimi muutettu
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit e194e25377a274f5c2f7933bd809cc6ded98d952
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 10:11:41 2019 +0300
+
+    Poistettu toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit d8aa390a4fbcf19e180f10d455e3bf30b2a9e3f8
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 10:08:18 2019 +0300
+
+    Lisätty kansio
+
+ stuff/testi.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 86c9961eb54fc4b0b307f64a847b4338b114b3a4
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 10:07:27 2019 +0300
+
+    Tiedostoja muokattu
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 270493d1e429873694a76c9684e36f20ed14bf23
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 10:06:39 2019 +0300
+
+    Kolmas lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit c2f871dc934c83233f191235ea66a1ec9cc54383
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 10:04:20 2019 +0300
+
+    Muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 285986cded32dbc3320022c897cb881002206022
+Author: Ville Pekkala <ville.pekkala@hotmail.com>
+Date:   Thu Jul 11 10:02:22 2019 +0300
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
