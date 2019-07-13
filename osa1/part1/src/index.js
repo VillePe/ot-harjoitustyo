@@ -1,62 +1,45 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
-const exercises3 = 14;
-const exercises2 = 7;
-const exercises = 10;
-const course = "Half Stack application development";
-
-const Header = (props) => {    
+const Display = ({counter}) => {
     return (
-        <h1>{props.course}</h1>
+        <div>{counter}</div>
     )
 }
 
-const Part = (props) => {
+const Button = ({handleClick, text}) => {
     return (
-        <p>{props.part} {props.exercises}</p>
+        <button onClick={handleClick}>
+            {text}
+        </button>
     )
 }
 
-const Content = (props) => {    
+const App = (props) => {
+    const [ counter, setCounter ] = useState(0)
+    const setToValue = (value) => setCounter(value)
+  
+  
     return (
-        <div>
-            <Part part={props.part1.name} exercises={props.part1.exercises} />
-            <Part part={props.part2.name} exercises={props.part2.exercises} />
-            <Part part={props.part3.name} exercises={props.part3.exercises} />
-        </div>
+      <div>
+        <Display counter={counter}/>
+        <Button
+          handleClick={() => setToValue(counter + 1)}
+          text='plus'
+        />
+        <Button
+          handleClick={() => setToValue(counter - 1)}
+          text='minus'
+        />
+        <Button
+          handleClick={() => setToValue(0)}
+          text='zero'
+        />
+      </div>
     )
-}
+  }
 
-const Total = () => {
-    return (
-        <p>
-            Number of exercises {exercises + exercises2 + exercises3}
-        </p>
-    )
-}
-
-const App = () => {
-    const course = "Half Stack application development";
-    const part1 = {
-        name: "Fundamentals of React",
-        exercises: 10
-    }
-    const part2 = {
-        name: "Using props to pass data",
-        exercises: 7
-    }
-    const part3 = {
-        name: "State of a component",
-        exercises: 14
-    }
-    return (
-        <div>
-            <Header course={course}/>
-            <Content part1={part1} part2={part2} part3={part3} />
-            <Total />
-        </div>
-    )
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <App />, 
+  document.getElementById('root')
+)
