@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Person from './Person'
 
-const database = "http://localhost:3001/persons";
+const database = "/api/persons";
 
 const App = (props) => {
     const [persons, setPersons] = useState([]);
