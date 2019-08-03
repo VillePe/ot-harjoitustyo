@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Person from './Person'
+import Notification from './Notification'
 
 const database = "/api/persons";
 
 const App = (props) => {
     const [persons, setPersons] = useState([]);
     const [newPerson, setNewPerson] = useState([]);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         axios
@@ -55,13 +57,19 @@ const App = (props) => {
                     setPersons(persons.map(p => {
                         return p.id !== putResponse.data.id ? p : putResponse.data
                     }));
-                })                
+                })
             } else {
                 // If person is not in database, add a new one
-                axios.post(database, newPerson).then(postResponse => {
-                    console.log(postResponse.data)
-                    setPersons(persons.concat(postResponse.data));
-                })
+                axios.post(database, newPerson)
+                    .then(postResponse => {
+                        console.log(postResponse.data)
+                        setPersons(persons.concat(postResponse.data));
+                    }).catch(error => {
+                        setError(error.response.data.error);
+                        setTimeout(() => {
+                            setError(null);
+                        }, 3000)
+                    })
             }
         })
     }
@@ -86,6 +94,7 @@ const App = (props) => {
     return (
         <div>APP215
             <h1>Phonebook</h1>
+            <Notification message={error} />
             <div>Filter shown with <input onChange={filterOnChange} /></div>
             <h2>Add new</h2>
             <div>Name <input onChange={onNewPersonNameChange} /></div>
