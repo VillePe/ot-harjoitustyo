@@ -1,33 +1,23 @@
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import reducer from './reducer'
+import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+import App from './App'
+import anecdoteReducer from './reducers/anecdoteReducer'
+import notificationReducer from './reducers/notificationReducer'
 
-const store = createStore(reducer)
+const reducers = combineReducers({ anecdotes: anecdoteReducer, notification: notificationReducer })
+const store = createStore(reducers)
 
-const App = () => {
-    const good = () => {
-        store.dispatch({
-            type: 'GOOD'
-        })
-    }
+const render = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App  />
+    </Provider>,
+    document.getElementById('root')
 
-    return (
-        <div>
-            <button onClick={() => {store.dispatch({type:"GOOD"})}}>hyvä</button>
-            <button onClick={() => {store.dispatch({type:"OK"})}}>neutraali</button>
-            <button onClick={() => {store.dispatch({type:"BAD"})}}>huono</button>
-            <button onClick={() => {store.dispatch({type:"ZERO"})}}>nollaa tilastot</button>
-            <div>hyvä {store.getState().good}</div>
-            <div>neutraali {store.getState().ok}</div>
-            <div>huono {store.getState().bad}</div>
-        </div>
-    )
+  )
 }
 
-const renderApp = () => {
-    ReactDOM.render(<App />, document.getElementById('root'))
-}
-
-renderApp()
-store.subscribe(renderApp)
+render()
+store.subscribe(render)

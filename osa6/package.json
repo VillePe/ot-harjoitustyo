@@ -30,6 +30,7 @@
     ]
   },
   "devDependencies": {
-    "deep-freeze": "0.0.1"
+    "deep-freeze": "0.0.1",
+    "react-redux": "^7.1.0"
   }
 }
