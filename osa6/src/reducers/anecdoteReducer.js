@@ -1,53 +1,80 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
-
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+import anecdoteService from '../services/anecdote'
 
 export const create = (content) => {
-  const newAn = {content:content, votes:0}
-  return {type:"CREATE", data:newAn}
+    return async dispatch => {
+        const result = await anecdoteService.createNew({ content: content, votes: 0 })
+        dispatch({
+            type: "CREATE",
+            data: result
+        })
+    }
 }
 
-export const vote = (id) => {
-  return { type: "VOTE", data: id }
+export const vote = (obj) => {
+    return async dispatch => {
+        const tempAn = { ...obj, votes: obj.votes + 1 }
+        const result = await anecdoteService.update(obj.id, tempAn)
+        dispatch({
+            type: "VOTE",
+            data: result
+        })
+    }
+    // return dips(obj);
+    // return { type: "VOTE", data: id }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+// async function dips(obj) {
+//     const tempAn = { ...obj, votes: obj.votes + 1 }
+//     const result = await anecdoteService.update(obj.id, tempAn)
+//     return () => {dispatch({
+//         type: "VOTE",
+//         data: result
+//     })}
+// }
 
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-  switch (action.type) {
-    case "VOTE":
-      console.log("VOTE")
-      const id = action.data;
-      const an = state.find(o => o.id === id);
-      const tempAn = {...an, votes: an.votes+1}
-      state = state.map(o => o.id !== id ? o : tempAn);
-      break;
-    case "CREATE":
-      console.log("CREATE")
-      if (action.data !== undefined && action.data.content !== undefined)
-      action.data.id = getId();
-      state = state.concat(action.data);
-      break;
-  }
+export const init = (data) => {
+    return async dispatch => {
+        const anecdotes = await anecdoteService.getAll();
+        dispatch({
+            type: "INIT",
+            data: anecdotes
+        })
+    }
+}
 
-  return state
+export const del = (id) => {
+    return { type: "DEL", id: id }
+}
+
+const anecdoteReducer = (state = [], action) => {
+    console.log('state now: ', state)
+    console.log('action', action)
+    switch (action.type) {
+        case "VOTE":
+            console.log("VOTE")
+            const id = action.data.id;
+            state = state.map(o => o.id !== id ? o : action.data);
+            break;
+        case "CREATE":
+            console.log("CREATE")
+            if (action.data !== undefined && action.data.content !== undefined) {
+                state = state.concat(action.data);
+                return state
+            }
+            break;
+        case "INIT":
+            console.log("INIT");
+            state = action.data;
+            break;
+        case "DEL":
+            console.log("DEL");
+            state = state.filter(o => o.id !== action.id);
+            break;
+        default:
+            console.log("DEFAULT");
+    }
+
+    return state
 }
 
 export default anecdoteReducer

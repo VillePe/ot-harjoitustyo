@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 const Notification = (props) => {
   const notification = props.notification; 
   if (notification === undefined || notification.message === undefined) {
-    console.error("Notification was undefined or did not have a message")
+    console.warn("Notification was undefined or did not have a message")
     return null;
   }
   const style = {

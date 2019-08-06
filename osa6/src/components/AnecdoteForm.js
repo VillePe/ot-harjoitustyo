@@ -1,14 +1,21 @@
 import React from 'react';
-import { create } from '../reducers/anecdoteReducer'
+import { create, del } from '../reducers/anecdoteReducer'
 import { connect } from 'react-redux'
+import anecdoteService from '../services/anecdote'
 
 const AnecdoteForm = (props) => {
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
-        const val = event.target.createAnecdote.value;
+        props.create(event.target.createAnecdote.value);
+    }
+
+    const onSubmitDel = (event) => {
+        event.preventDefault();
+        const val = event.target.deleteAnecdote.value;
+        anecdoteService.deleteItem(val);
         console.log("Input value:", val);
-        props.create(val);
+        props.del(val);
     }
 
     return (
@@ -18,20 +25,18 @@ const AnecdoteForm = (props) => {
                 <div><input name="createAnecdote" /></div>
                 <button>create</button>
             </form>
+            <form onSubmit={onSubmitDel}>
+                <div><input name="deleteAnecdote" /></div>
+                <button>delete</button>
+            </form>
         </div>
     )
 }
 
-const mapStateTo = (state) => {
-    return {
-        // anecdotes: state.anecdotes
-    }
-}
-
 const mapDispatchToProps = {
-    create
+    create, del
 }
 
-const ConnectedAnecdoteForm = connect(mapStateTo, mapDispatchToProps)(AnecdoteForm);
+const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm);
 
 export default ConnectedAnecdoteForm
