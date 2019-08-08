@@ -1,27 +1,42 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Link, Route, Redirect, withRouter } from 'react-router-dom'
+import { Container, Table, Form, Button, Menu } from 'semantic-ui-react'
 
-const Menu = () => {
+const AppMenu = () => {
   const padding = {
     paddingRight: 5
   }
   return (
-    <div>
-      <div style={{paddingBottom:"10px"}}>
-        <Link exact to='/anecdotes' style={padding}>anecdotes</Link>
+    <Menu>
+      <Menu.Item link>
+        <Link to='/anecdotes' style={padding}>anecdotes</Link>
+      </Menu.Item>
+      <Menu.Item link>
         <Link to='/create-new' style={padding}>create new</Link>
+      </Menu.Item>
+      <Menu.Item link>
         <Link to='/about' style={padding}>about</Link>
-      </div>
-    </div>
+      </Menu.Item>
+    </Menu>
   )
 }
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} ><Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
-    </ul>
+    <Table striped celled>
+      <Table.Body>
+        {anecdotes.map(anecdote =>
+          <Table.Row key={anecdote.id}>
+            <Table.Cell>
+              <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+            </Table.Cell>
+            <Table.Cell>
+              {anecdote.author}
+            </Table.Cell>
+          </Table.Row>)}
+      </Table.Body>
+    </Table>
   </div>
 )
 
@@ -68,24 +83,23 @@ const CreateNew = (props) => {
   }
 
   return (
-    <div>
+    <Form onSubmit={handleSubmit}>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
-        </div>
-        <div>
-          author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
-        </div>
-        <div>
-          url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
-        </div>
-        <button>create</button>
-      </form>
-    </div>
+
+      <Form.Field>
+        <label>Content</label>
+        <input placeholder="Content" name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+      </Form.Field>
+      <Form.Field>
+        <label>Author</label>
+        <input placeholder="Author" name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+      </Form.Field>
+      <Form.Field>
+        <label>Ulr for more info</label>
+        <input placeholder="Url" name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
+      </Form.Field>
+      <Button>create</Button>
+    </Form>
   )
 
 }
@@ -94,15 +108,15 @@ const CreateNewWithHistory = withRouter(CreateNew);
 
 const Anecdote = ({ anecdote }) => {
   return (
-    <div>{anecdote.content}
+    <Container text textAlign="center">{anecdote.content}
       <div>
         Votes: {anecdote.votes}
       </div>
-    </div>
+    </Container>
   )
 }
 
-const Notification = ({message}) => {
+const Notification = ({ message }) => {
   if (message === null) return null;
   return (
     <div>
@@ -151,20 +165,22 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h1>Software anecdotes</h1>
-      <Router>
-        <Menu />
-        <Notification message={notification}/>
-        <Route exact path="/anecdotes" render={() => <AnecdoteList anecdotes={anecdotes} />} />
-        <Route path="/create-new" render={() => <CreateNewWithHistory addNew={addNew} setNotification={setNotification}/>} />
-        <Route path="/about" render={() => <About />} />
-        <Route exact path={"/anecdotes/:id"} render={({ match }) => {
-          return <Anecdote anecdote={anectodeById(anecdotes, match.params.id)} />
-        }} />
-      </Router>
-      <Footer />
-    </div>
+    <Container>
+      <div>
+        <h1>Software anecdotes</h1>
+        <Router>
+          <AppMenu />
+          <Notification message={notification} />
+          <Route exact path="/anecdotes" render={() => <AnecdoteList anecdotes={anecdotes} />} />
+          <Route path="/create-new" render={() => <CreateNewWithHistory addNew={addNew} setNotification={setNotification} />} />
+          <Route path="/about" render={() => <About />} />
+          <Route exact path={"/anecdotes/:id"} render={({ match }) => {
+            return <Anecdote anecdote={anectodeById(anecdotes, match.params.id)} />
+          }} />
+        </Router>
+        <Footer />
+      </div>
+    </Container>
   )
 }
 
